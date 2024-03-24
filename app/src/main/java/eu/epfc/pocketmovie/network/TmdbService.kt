@@ -16,6 +16,4 @@ object TmdbService {
         // create our client
         movieClient = retrofit.create(TmdbHttpClient::class.java)
     }
-
-
 }
