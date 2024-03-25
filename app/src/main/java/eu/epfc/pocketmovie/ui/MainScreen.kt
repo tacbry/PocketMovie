@@ -54,6 +54,8 @@ fun MainScreen(){
             .padding(it)
             .fillMaxWidth()) {
 
+
+
 /*                LazyColumn(){
                     items(MainScreenViewModel.Movie.value.size) { index ->
                         MovieItem(MainScreenViewModel.characters.value[index])
@@ -119,7 +121,7 @@ fun MovieBottomAppBar(
                    }
                    Text(text = "Recent Movies")
                }
-               //Spacer(Modifier.padding(10.dp))
+
                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                    IconButton(onClick = { /*TODO*/ }) {
                        Icon(imageVector = Icons.Filled.Star, contentDescription = "pocket")

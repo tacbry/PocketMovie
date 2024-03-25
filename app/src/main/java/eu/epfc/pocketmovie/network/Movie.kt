@@ -8,6 +8,6 @@ data class Movie(
     val ratings : Float,
     val genre : List<String>,//creer une classe  genre List<classe>
     val originalLanguage : String,
-    var pocket : Boolean
+    var pocket : Boolean = false
 )
 
