@@ -8,6 +8,7 @@ import eu.epfc.pocketmovie.network.TmdbHttpClient
 import eu.epfc.pocketmovie.network.TmdbResponse
 import eu.epfc.pocketmovie.network.TmdbService
 import eu.epfc.pocketmovie.network.TmdbService.movieClient
+import org.json.JSONObject
 import java.io.InputStream
 
 object Repository {
@@ -32,20 +33,27 @@ object Repository {
 
     //fonction json
 
-    private fun readJson(context: Context, request : String):String?{
-        return try {
-            val assetManager : AssetManager=context.assets
-            val inputStream : InputStream = assetManager.open(request)
-            val content = inputStream.bufferedReader().use{it.readText()}
-            content
-        } catch (e:Exception){
-            println("Error reading $request")
-            null
-        }
-    }
+
 
     suspend fun loadMovies(){
         val response = movieClient.getMovies(pageNumber,key)
+        if (response!=null){
+            _movies.clear()
+            val rootJSON = JSONObject(response.results.toString())
+            val rootJSONArray = JSONObject(response.results.toString())
+            val results = rootJSON.getJSONArray("results")
+            for (i in 0 until results.length()){
+                val movieJSON = results.getJSONObject(i)
+                val id = movieJSON.getInt("id")
+                val title = movieJSON.getString("title")
+                val release_date = movieJSON.getString("release_date")
+                val overview = movieJSON.getString("overview")
+                val vote_average = movieJSON.getDouble("vote_average")
+                val genre_ids = movieJSON.getInt("genre_ids")
+                val original_language = movieJSON.getString("original_language")
+                val movie = Movie(id,title,release_date,overview,vote_average,original_language=original_language) //comment faire avec le array genre ids
+                _movies.add(movie)
+            }
+        }
     }
-
 }

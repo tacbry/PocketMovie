@@ -1,13 +1,13 @@
 package eu.epfc.pocketmovie.network
 
 data class Movie(
-    val movieId : Int,
+    val id : Int,
     val title : String,
-    val year : String,
-    val summary : String,
-    val ratings : Float,
-    val genre : List<String>,//creer une classe  genre List<classe>
-    val originalLanguage : String,
+    val release_date : String,
+    val overview : String,
+    val vote_average : Double,
+    val genre_ids : List<String>?=null,//creer une classe  genre List<classe>
+    val original_language : String,
     var pocket : Boolean = false
 )
 

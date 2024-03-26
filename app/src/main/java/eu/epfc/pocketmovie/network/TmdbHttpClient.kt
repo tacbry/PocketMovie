@@ -13,7 +13,7 @@ interface TmdbHttpClient {
 
 
 // obtenir les details d'un film
-// https://api.themoviedb.org/3/movie/$movieID?api_key=3e61ccbeab06aaea3faa21401638cbef     remplacer {your_movie_id} par $movieID (+creer variable)
+// https://api.themoviedb.org/3/movie/$movieID?api_key=3e61ccbeab06aaea3faa21401638cbef
 
 // obtenir une liste de film
-// https://api.themoviedb.org/3/movie/popular?page={your_page_number}&api_key=3e61ccbeab06aaea3faa21401638cbef   remplacer {your_page_number} par $numberPage (+creer variable)
+// https://api.themoviedb.org/3/movie/popular?page={your_page_number}&api_key=3e61ccbeab06aaea3faa21401638cbef

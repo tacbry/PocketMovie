@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
@@ -21,6 +22,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -36,6 +38,9 @@ fun MainScreen(){
     //var checked by remember { mutableStateOf(true) }
     val mainScreenViewModel : MainScreenViewModel = viewModel()
     val navController = rememberNavController()
+    val viewModelFactory = MainViewModelFactory(LocalContext.current.applicationContext)
+    val mainViewModel : MainScreenViewModel = viewModel(factory = viewModelFactory)
+
     Scaffold(
         topBar = {
             MovieTopAppBar(
@@ -53,14 +58,11 @@ fun MainScreen(){
         Surface(modifier = Modifier
             .padding(it)
             .fillMaxWidth()) {
-
-
-
-/*                LazyColumn(){
-                    items(MainScreenViewModel.Movie.value.size) { index ->
-                        MovieItem(MainScreenViewModel.characters.value[index])
+                LazyColumn(){
+                    items(mainViewModel.movies.value.size) { index ->
+                        MovieItem(mainViewModel.movies.value[index])
                     }
-                }*/
+                }
         }
     }
 /*    Switch(
@@ -136,6 +138,18 @@ fun MovieBottomAppBar(
 
 @Composable
 fun MovieItem(movie: Movie){
+    Column {
+        Row {
+            Text(text = movie.original_language)
+            Text(text = movie.title)
+            Text(text = movie.release_date)
+            Text(text = movie.vote_average.toString())
+            
+
+        }
+        Text(text = movie.overview)
+    }
+
 
 }
-
+// rendre un compasable cliquable : modifiercliquable
