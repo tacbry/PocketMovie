@@ -20,7 +20,7 @@ enum class MovieResult() {
     UNINITIALIZED;
 }
 
-class MainScreenViewModel(context: Context) : ViewModel() {
+class MainScreenViewModel() : ViewModel() {
     val movies: MutableState<List<Movie>> = mutableStateOf(listOf())
     val displayedActivity = mutableStateOf("")
     val fetchResult = mutableStateOf(MovieResult.UNINITIALIZED)
@@ -63,7 +63,7 @@ class MainScreenViewModel(context: Context) : ViewModel() {
 
 class MainViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainScreenViewModel(context) as T
+        return MainScreenViewModel() as T
     }
 }
 

@@ -13,7 +13,7 @@ import java.io.InputStream
 
 object Repository {
     val pageNumber : Int = 1
-    val key : String = "3e61ccbeab06aaea3faa21401638cbef"
+    var key : String = "3e61ccbeab06aaea3faa21401638cbef"
 
     /*
             //Database
@@ -51,6 +51,7 @@ object Repository {
                 val vote_average = movieJSON.getDouble("vote_average")
                 val genre_ids = movieJSON.getInt("genre_ids")
                 val original_language = movieJSON.getString("original_language")
+
                 val movie = Movie(id,title,release_date,overview,vote_average,original_language=original_language) //comment faire avec le array genre ids
                 _movies.add(movie)
             }
