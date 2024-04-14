@@ -44,7 +44,8 @@ class MainScreenViewModel() : ViewModel() {
                     movie.release_date,
                     movie.overview,
                     movie.vote_average,
-                    original_language = movie.original_language
+                    original_language = movie.original_language,
+                    poster_path = movie.poster_path
                 )
             }
         }

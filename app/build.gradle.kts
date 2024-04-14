@@ -67,6 +67,12 @@ dependencies {
     //kapt("androidx.room:room-compiler:2.6.1")
     //mplementation ("androidx.room:room-ktx:2.6.0")
 
+    //picasso
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
+    //coil
+    implementation ("io.coil-kt:coil-compose:1.4.0")
+
     //base
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")

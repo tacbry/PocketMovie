@@ -1,8 +1,15 @@
 package eu.epfc.pocketmovie.ui
 
+import android.content.Context
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,6 +19,8 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,11 +34,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import coil.compose.rememberImagePainter
+import com.squareup.picasso.Picasso
 import eu.epfc.pocketmovie.R
+import eu.epfc.pocketmovie.model.Repository
 import eu.epfc.pocketmovie.network.Movie
+import kotlin.math.roundToInt
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,6 +56,7 @@ fun MainScreen(){
     val navController = rememberNavController()
     val viewModelFactory = MainViewModelFactory(LocalContext.current.applicationContext)
     val mainViewModel : MainScreenViewModel = viewModel(factory = viewModelFactory)
+    val context = LocalContext.current.applicationContext
 
     Scaffold(
         topBar = {
@@ -58,11 +75,34 @@ fun MainScreen(){
         Surface(modifier = Modifier
             .padding(it)
             .fillMaxWidth()) {
-                LazyColumn(){
+                /*LazyColumn{
                     items(mainViewModel.movies.value.size) { index ->
                         MovieItem(mainViewModel.movies.value[index])
                     }
+                }*/
+            //Repository.pageNumber = 5
+            ShowMovies(mainViewModel)
+
+            if (Repository.pageNumber==1){
+                Button(onClick = { Repository.pageNumber+=1}) {
+                Text("Next page")
+            }
+            }
+            if (Repository.pageNumber>1){
+
+                Row {
+                    Button(onClick = { Repository.pageNumber-=1}) {
+                        Text("Previous page")
+                    }
+
+                    Button(onClick = { Repository.pageNumber+=1}) {
+                        Text("Next page")
+                    }
                 }
+
+
+            }
+
         }
     }
 /*    Switch(
@@ -138,18 +178,87 @@ fun MovieBottomAppBar(
 
 @Composable
 fun MovieItem(movie: Movie){
+    val roundoff = (movie.vote_average * 10.0).roundToInt() / 10.0
     Column {
-        Row {
-            Text(text = movie.original_language)
-            Text(text = movie.title)
-            Text(text = movie.release_date)
-            Text(text = movie.vote_average.toString())
-            
-
+        Card(modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth()
+            .clickable(onClick = { }))
+        {
+            ViewPosterCoil(movie.poster_path)
+            Text(text = movie.title, fontSize = 20.sp)
+            Text(text = "Release Date :" + movie.release_date)
+            Text(text = "Rating :$roundoff")
         }
-        Text(text = movie.overview)
+
+        //Text(text = movie.original_language)
+
+        //LanguageFlag(codePays = movie.original_language, ImageView)
+        AfficherDrapeauAvecCoil(codePays = movie.original_language)
+
+        //Text(text = movie.overview)
+        //Spacer(Modifier.padding(15.dp))
     }
 
 
 }
-// rendre un compasable cliquable : modifiercliquable
+
+fun LanguageFlag(codePays: String, imageView: ImageView) {
+   try {
+       val url = "https://flagcdn.com/h20/$codePays.png"
+       Picasso.get()
+           .load(url)
+           .into(imageView)
+   } catch (e : Exception){
+       val url = "https://flagcdn.com/h20/fr.png"
+       Picasso.get()
+           .load(url)
+           .into(imageView)
+   }
+}
+
+fun ViewPoster(poster: String, imageView: ImageView) {
+        val url = "https://image.tmdb.org/t/p/w500$poster"
+        Picasso.get()
+            .load(url)
+            .into(imageView)
+    }
+
+@Composable
+fun ViewPosterCoil(poster: String) {
+    val url = "https://image.tmdb.org/t/p/w500$poster"
+    val painter = rememberImagePainter(data = url)
+    Image(painter = painter, contentDescription = null)
+}
+
+@Composable
+fun AfficherDrapeauAvecCoil(codePays: String) {
+    var code = codePays
+    if (code=="en"){
+        code = "gb"
+    }
+        val url = "https://flagcdn.com/h20/$code.png"
+        val painter = rememberImagePainter(data = url)
+        Image(painter = painter, contentDescription = null)
+}
+
+@Composable
+fun ShowMovies(mainViewModel: MainScreenViewModel){
+    LazyColumn{
+        items(mainViewModel.movies.value.size) { index ->
+            MovieItem(mainViewModel.movies.value[index])
+        }
+    }
+}
+
+@Composable
+fun ClickNextPage(mainViewModel: MainScreenViewModel){
+    Repository.pageNumber+=1
+    ShowMovies(mainViewModel)
+}
+
+@Composable
+fun ClickPreviousPage(mainViewModel: MainScreenViewModel){
+    Repository.pageNumber-=1
+    ShowMovies(mainViewModel)
+}

@@ -12,8 +12,8 @@ import org.json.JSONObject
 import java.io.InputStream
 
 object Repository {
-    val pageNumber : Int = 1
-    var key : String = "3e61ccbeab06aaea3faa21401638cbef"
+    var pageNumber : Int = 1
+    const val  key : String = "3e61ccbeab06aaea3faa21401638cbef"
 
     /*
             //Database
@@ -25,7 +25,7 @@ object Repository {
     }*/
 
     //Http
-    private val _movies: MutableList<Movie> = mutableListOf()
+    private var _movies: MutableList<Movie> = mutableListOf()
     val movies : List<Movie>
         get() = _movies
 
@@ -39,22 +39,9 @@ object Repository {
         val response = movieClient.getMovies(pageNumber,key)
         if (response!=null){
             _movies.clear()
-            val rootJSON = JSONObject(response.results.toString())
-            val rootJSONArray = JSONObject(response.results.toString())
-            val results = rootJSON.getJSONArray("results")
-            for (i in 0 until results.length()){
-                val movieJSON = results.getJSONObject(i)
-                val id = movieJSON.getInt("id")
-                val title = movieJSON.getString("title")
-                val release_date = movieJSON.getString("release_date")
-                val overview = movieJSON.getString("overview")
-                val vote_average = movieJSON.getDouble("vote_average")
-                val genre_ids = movieJSON.getInt("genre_ids")
-                val original_language = movieJSON.getString("original_language")
+            _movies = response.results.toMutableList()
 
-                val movie = Movie(id,title,release_date,overview,vote_average,original_language=original_language) //comment faire avec le array genre ids
-                _movies.add(movie)
+
             }
         }
     }
-}
