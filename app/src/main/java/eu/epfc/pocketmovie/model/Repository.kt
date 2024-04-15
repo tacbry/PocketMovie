@@ -1,15 +1,9 @@
 package eu.epfc.pocketmovie.model
 
-import android.content.Context
-import android.content.res.AssetManager
-//import eu.epfc.pocketmovie.database.PocketDatabase
+
 import eu.epfc.pocketmovie.network.Movie
-import eu.epfc.pocketmovie.network.TmdbHttpClient
-import eu.epfc.pocketmovie.network.TmdbResponse
-import eu.epfc.pocketmovie.network.TmdbService
 import eu.epfc.pocketmovie.network.TmdbService.movieClient
-import org.json.JSONObject
-import java.io.InputStream
+
 
 object Repository {
     var pageNumber : Int = 1
@@ -29,6 +23,7 @@ object Repository {
     val movies : List<Movie>
         get() = _movies
 
+
     //fonction suspend pour db
 
     //fonction json
@@ -38,10 +33,18 @@ object Repository {
     suspend fun loadMovies(){
         val response = movieClient.getMovies(pageNumber,key)
         if (response!=null){
-            _movies.clear()
             _movies = response.results.toMutableList()
-
-
+            //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
             }
         }
-    }
+
+    /*
+    suspend fun loadDetails(movieId : Int){
+        val response = movieClient.getMovieDetails(movieId.toString(),key)
+        if (response!=null){
+            _movies = response.toMutableList()
+            //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
+        }
+    }*/
+}
+

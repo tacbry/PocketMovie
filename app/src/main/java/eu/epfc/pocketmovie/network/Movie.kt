@@ -6,9 +6,25 @@ data class Movie(
     val release_date : String,
     val overview : String,
     val vote_average : Double,
-    val genre_ids : List<String>?=null,//creer une classe  genre List<classe>
-    val original_language : String,
+    val genres : List<Genre>? = null,
+    val originalLanguage : String?,
     var pocket : Boolean = false,
-    var poster_path : String
+    var poster_path : String,
+    val backdropPath : String? = null,
+    val budget : Int = 0,
+    val adult : Boolean = false,
+    val productionCountries : List<Country>? = null,
+    val duration : Int = 0
+    )
+
+
+data class Genre(
+    val id: Int,
+    val name : String
+)
+
+data class Country(
+    val isoId : String,
+    val name : String
 )
 

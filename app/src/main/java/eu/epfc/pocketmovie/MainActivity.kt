@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import eu.epfc.pocketmovie.ui.MainScreen
+import eu.epfc.pocketmovie.ui.PocketApp
 import eu.epfc.pocketmovie.ui.theme.PocketMovieTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    PocketApp()
                 }
             }
         }

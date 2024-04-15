@@ -71,7 +71,7 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")
 
     //coil
-    implementation ("io.coil-kt:coil-compose:1.4.0")
+    implementation ("io.coil-kt:coil-compose:2.4.0")
 
     //base
     implementation("androidx.core:core-ktx:1.9.0")

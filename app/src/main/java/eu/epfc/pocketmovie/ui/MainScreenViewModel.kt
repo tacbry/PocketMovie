@@ -8,11 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import eu.epfc.pocketmovie.model.Repository
+import eu.epfc.pocketmovie.model.Repository.key
 import eu.epfc.pocketmovie.network.Movie
 import eu.epfc.pocketmovie.network.TmdbService
+import eu.epfc.pocketmovie.network.TmdbService.movieClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 
 enum class MovieResult() {
     SUCCESS,
@@ -20,14 +21,18 @@ enum class MovieResult() {
     UNINITIALIZED;
 }
 
+
 class MainScreenViewModel() : ViewModel() {
     val movies: MutableState<List<Movie>> = mutableStateOf(listOf())
+    val movieDetails : MutableState<Movie?> = mutableStateOf(null)
     val displayedActivity = mutableStateOf("")
     val fetchResult = mutableStateOf(MovieResult.UNINITIALIZED)
 
     init {
-        fetchMovies()
+        //fetchMovies()
         Log.d("HTTP Call", "ok")
+        //fetchMovieDetails(693134)
+        //Log.d("HTTP Detail Call ", "ok")
     }
 
     fun fetchMovies() {
@@ -37,29 +42,20 @@ class MainScreenViewModel() : ViewModel() {
             } catch (e: Exception) {
 
             }
-            movies.value = Repository.movies.map { movie: Movie ->
-                Movie(
-                    movie.id,
-                    movie.title,
-                    movie.release_date,
-                    movie.overview,
-                    movie.vote_average,
-                    original_language = movie.original_language,
-                    poster_path = movie.poster_path
-                )
-            }
+            movies.value = Repository.movies
         }
     }
 
-    fun fetchMovieDetails() {
-        viewModelScope.launch {
+    fun fetchMovieDetails(movieId : Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val movieDetails = TmdbService.movieClient.getMovieDetails()
+                movieDetails.value = movieClient.getMovieDetails(movieId.toString(),key)
             } catch (e: Exception) {
 
             }
         }
     }
+
 }
 
 class MainViewModelFactory(private val context: Context) : ViewModelProvider.Factory {

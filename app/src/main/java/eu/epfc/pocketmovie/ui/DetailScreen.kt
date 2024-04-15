@@ -13,29 +13,33 @@ import androidx.compose.ui.Modifier
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun DetailScreen(){
-    Scaffold(
-        topBar = {
-            MovieTopAppBar(
-                canNavigateBack = true,
-                navigateUp = { /*TODO*/ }
-            )
-        }
-    ){
+fun DetailScreen(movieId : Int?){
+    Scaffold{
         Surface(modifier = Modifier
             .padding(it)
             .fillMaxWidth()) {
-            Column {
-                //image
-                //title
-                Row {
-                    //date
-                    //style
-                    //note
-                }
-                //resume
-                // bouton pocket
-            }
+            ShowDetails(mainViewModel = )
+
         }
     }
 }
+
+@Composable
+fun ShowDetails(mainViewModel: MainScreenViewModel) {
+    if (movieId != null) {
+        mainViewModel.fetchMovieDetails(movieId)
+    }
+    Column {
+        //image
+        //title
+        Row {
+            //date
+            //style
+            //note
+        }
+        //resume
+        // bouton pocket
+    }
+}
+
+
