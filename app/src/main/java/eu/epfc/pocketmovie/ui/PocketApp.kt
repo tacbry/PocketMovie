@@ -60,13 +60,14 @@ fun PocketApp(){
             composable(route = MovieState.POCKET.name){
 
             }
-            composable(route = MovieState.DETAIL.name + "/movieId" ){
+            composable(route = "${MovieState.DETAIL.name}/{movieId}" ){
                 val detailMovieId = it.arguments?.getString("movieId")?.toInt()
-                DetailScreen(detailMovieId ?: 0)
+                DetailScreen(detailMovieId ?: 693134)
             }
         }
     }
 }
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

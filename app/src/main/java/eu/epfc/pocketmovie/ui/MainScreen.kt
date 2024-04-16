@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,9 +42,6 @@ fun MainScreen(onClickItem: (Int) -> Unit){
             .padding(it)
             .fillMaxWidth()) {
             ShowMovies(mainViewModel,onClickItem)
-            Button(onClick = { Repository.pageNumber+=1}) {
-                Text("Next page")
-            }
         }
     }
 /*    Switch(
@@ -83,7 +81,7 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
                     Text(text = movie.title, fontSize = 20.sp)
                     Text(text = "Release Date :" + movie.release_date)
                     Text(text = "Rating :$roundoff")
-                    //LanguageFlag(codePays = movie.originalLanguage)
+                    CountryFlag(codePays = movie.original_language)
                 }
             }
         }
@@ -95,22 +93,14 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
 
 
 
-@Composable
-fun ViewPosterCoil(poster: String) {
-    val url = "https://image.tmdb.org/t/p/w500$poster"
-    AsyncImage(model = url, contentDescription = "poster",
-    modifier = Modifier.size(width = 100.dp, height = 200.dp) )
-}
+
 
 
 
 @Composable
 
-fun LanguageFlag(codePays: String) {
-    var code = codePays
-    if (code=="en"){
-        code = "gb"
-    }
+fun CountryFlag(codePays: String) {
+    var code = codePays.lowercase()
         val url = "https://flagcdn.com/h20/$code.png"
     AsyncImage(model = url, contentDescription = "languageflag")
 }

@@ -1,6 +1,8 @@
 package eu.epfc.pocketmovie.model
 
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import eu.epfc.pocketmovie.network.Movie
 import eu.epfc.pocketmovie.network.TmdbService.movieClient
 
@@ -23,6 +25,9 @@ object Repository {
     val movies : List<Movie>
         get() = _movies
 
+    private lateinit var _details: Movie
+    val details : Movie
+        get() = _details
 
     //fonction suspend pour db
 
@@ -38,13 +43,13 @@ object Repository {
             }
         }
 
-    /*
+
     suspend fun loadDetails(movieId : Int){
         val response = movieClient.getMovieDetails(movieId.toString(),key)
         if (response!=null){
-            _movies = response.toMutableList()
+            _details = response
             //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
         }
-    }*/
+    }
 }
 

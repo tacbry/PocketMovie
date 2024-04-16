@@ -2,11 +2,16 @@ package eu.epfc.pocketmovie.ui
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import coil.compose.AsyncImage
 import eu.epfc.pocketmovie.model.Repository
 import eu.epfc.pocketmovie.model.Repository.key
 import eu.epfc.pocketmovie.network.Movie
@@ -49,7 +54,7 @@ class MainScreenViewModel() : ViewModel() {
     fun fetchMovieDetails(movieId : Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                movieDetails.value = movieClient.getMovieDetails(movieId.toString(),key)
+                Repository.loadDetails(movieId)
             } catch (e: Exception) {
 
             }
@@ -57,7 +62,12 @@ class MainScreenViewModel() : ViewModel() {
     }
 
 }
-
+@Composable
+fun ViewPosterCoil(poster: String) {
+    val url = "https://image.tmdb.org/t/p/w500$poster"
+    AsyncImage(model = url, contentDescription = "poster",
+        modifier = Modifier.size(width = 100.dp, height = 200.dp) )
+}
 class MainViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainScreenViewModel() as T
