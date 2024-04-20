@@ -45,10 +45,9 @@ object Repository {
 
 
     suspend fun loadDetails(movieId : Int){
-        val details : Movie
         val response = movieClient.getMovieDetails(movieId.toString(),key)
         if (response!=null){
-            details = response.copy()
+            _details.equals(response)
             //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
         }
     }
