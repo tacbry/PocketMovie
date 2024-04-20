@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.fragment.NavHostFragment
 import eu.epfc.pocketmovie.R
 
 enum class MovieState() {
@@ -62,7 +63,7 @@ fun PocketApp(){
             }
             composable(route = "${MovieState.DETAIL.name}/{movieId}" ){
                 val detailMovieId = it.arguments?.getString("movieId")?.toInt()
-                DetailScreen(detailMovieId ?: 693134)
+                DetailScreen(detailMovieId ?: 0)
             }
         }
     }
@@ -112,7 +113,7 @@ fun MovieBottomAppBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { /*goto Mainscrenn */}) {
                         Icon(
                             imageVector = Icons.Filled.PlayArrow,
                             contentDescription = "recent movies"

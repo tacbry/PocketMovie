@@ -33,12 +33,6 @@ class MainScreenViewModel() : ViewModel() {
     val displayedActivity = mutableStateOf("")
     val fetchResult = mutableStateOf(MovieResult.UNINITIALIZED)
 
-    init {
-        //fetchMovies()
-        Log.d("HTTP Call", "ok")
-        //fetchMovieDetails(693134)
-        //Log.d("HTTP Detail Call ", "ok")
-    }
 
     fun fetchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,9 +52,9 @@ class MainScreenViewModel() : ViewModel() {
             } catch (e: Exception) {
 
             }
+            movieDetails.value = Repository.details
         }
     }
-
 }
 @Composable
 fun ViewPosterCoil(poster: String) {
@@ -68,6 +62,16 @@ fun ViewPosterCoil(poster: String) {
     AsyncImage(model = url, contentDescription = "poster",
         modifier = Modifier.size(width = 100.dp, height = 200.dp) )
 }
+
+@Composable
+
+fun CountryFlag(codePays: String) {
+    var code = codePays.lowercase()
+    val url = "https://flagcdn.com/h20/$code.png"
+    AsyncImage(model = url, contentDescription = "languageflag")
+}
+
+
 class MainViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return MainScreenViewModel() as T

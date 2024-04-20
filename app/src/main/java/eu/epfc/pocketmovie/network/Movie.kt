@@ -1,5 +1,7 @@
 package eu.epfc.pocketmovie.network
 
+import androidx.compose.runtime.MutableState
+
 data class Movie(
     val id: Int,
     val title: String,

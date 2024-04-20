@@ -97,13 +97,7 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
 
 
 
-@Composable
 
-fun CountryFlag(codePays: String) {
-    var code = codePays.lowercase()
-        val url = "https://flagcdn.com/h20/$code.png"
-    AsyncImage(model = url, contentDescription = "languageflag")
-}
 
 /*
 

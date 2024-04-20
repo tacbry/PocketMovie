@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import eu.epfc.pocketmovie.network.Movie
@@ -18,36 +19,41 @@ import eu.epfc.pocketmovie.network.Movie
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun DetailScreen(movieId : Int?){
-    val mainViewModel : MainScreenViewModel = viewModel()
+    val viewModelFactory = MainViewModelFactory(LocalContext.current.applicationContext)
+    val mainViewModel : MainScreenViewModel = viewModel(factory = viewModelFactory)
     Scaffold{
         Surface(modifier = Modifier
             .padding(it)
             .fillMaxWidth()) {
-//            if (movieId != null) {
-//                ShowDetails(mainViewModel = mainViewModel, movieId )
-//            }
+            if (movieId != null) {
+                ShowDetails(mainViewModel = mainViewModel, movieId )
+            }
 
         }
     }
 }
 
 
-@Composable
-fun ShowDetails(mainViewModel: MainScreenViewModel,movieId : Int = 693134) {
-    if (movieId != null) {
-        mainViewModel.fetchMovieDetails(movieId)
-    }
-    Column {
-        //image
-        Text(text = mainViewModel.movieDetails.value!!.title, fontSize = 20.sp)
-        Row {
-            Text(text = mainViewModel.movieDetails.value!!.release_date)
-            //Text(text = mainViewModel.movieDetails.value!!.genres!!.name)
-            Text(text = mainViewModel.movieDetails.value!!.vote_average.toString())
 
+@Composable
+fun ShowDetails(mainViewModel: MainScreenViewModel, movieId: Int){
+    mainViewModel.fetchMovieDetails(movieId)
+    mainViewModel.movieDetails.value?.let { ItemDetails(movie = it) }
+}
+@Composable
+fun ItemDetails(movie : Movie) {
+    Column {
+        ViewPosterCoil(poster = movie.poster_path)
+        Text(text = movie.title, fontSize = 20.sp)
+        Row {
+            Text(text = movie.release_date)
+            //Text(text = mainViewModel.movieDetails.value!!.genres!!.name)
+            Text(text = movie.vote_average.toString())
+            CountryFlag(codePays = movie.production_countries.iso_3166_1)
+
+            //resume
+            // bouton pocket
         }
-        //resume
-        // bouton pocket
     }
 }
 

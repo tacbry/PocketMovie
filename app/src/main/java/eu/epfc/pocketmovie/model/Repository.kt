@@ -25,8 +25,8 @@ object Repository {
     val movies : List<Movie>
         get() = _movies
 
-    private lateinit var _details: Movie
-    val details : Movie
+    private var _details: MutableState<Movie?> = mutableStateOf(null)
+    val details : MutableState<Movie?>
         get() = _details
 
     //fonction suspend pour db
@@ -45,9 +45,10 @@ object Repository {
 
 
     suspend fun loadDetails(movieId : Int){
+        val details : Movie
         val response = movieClient.getMovieDetails(movieId.toString(),key)
         if (response!=null){
-            _details = response
+            details = response.copy()
             //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
         }
     }
