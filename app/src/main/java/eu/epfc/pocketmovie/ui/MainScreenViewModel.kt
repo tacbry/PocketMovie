@@ -52,7 +52,7 @@ class MainScreenViewModel() : ViewModel() {
             } catch (e: Exception) {
 
             }
-            movieDetails.value = Repository.details
+            movieDetails.value = Repository.details.value
         }
     }
 }

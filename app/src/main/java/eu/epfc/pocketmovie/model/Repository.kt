@@ -37,19 +37,17 @@ object Repository {
 
     suspend fun loadMovies(){
         val response = movieClient.getMovies(pageNumber,key)
-        if (response!=null){
-            _movies = response.results.toMutableList()
+        _movies = response.results.toMutableList()
             //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
-            }
+
         }
 
 
     suspend fun loadDetails(movieId : Int){
         val response = movieClient.getMovieDetails(movieId.toString(),key)
-        if (response!=null){
-            _details.equals(response)
+        _details.value = response
             //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
-        }
+
     }
 }
 
