@@ -50,12 +50,35 @@ class MainScreenViewModel() : ViewModel() {
             try {
                 Repository.loadDetails(movieId)
             } catch (e: Exception) {
-
+                Log.d("fetchDetails","can't fetch details")
             }
             movieDetails.value = Repository.details.value
         }
     }
+
+    suspend fun isPocket(movieId: Int, checked : Boolean){
+        fetchMovieDetails(movieId)
+        if (checked){
+            movieDetails.value?.let { Repository.insertPocket(it) }
+        } else{
+            movieDetails.value?.let { Repository.deletePocket(it) }
+        }
+    }
+
+    fun switchChange(checked: Boolean,movieId: Int){
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                isPocket(movieId,checked)
+            }catch(e : Exception){
+                Log.d("switchChange","can't switch")
+            }
+        }
+    }
 }
+
+
+
+
 @Composable
 fun ViewPosterCoil(poster: String) {
     val url = "https://image.tmdb.org/t/p/w500$poster"

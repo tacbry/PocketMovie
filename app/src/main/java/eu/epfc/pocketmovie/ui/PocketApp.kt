@@ -22,10 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.fragment.NavHostFragment
 import eu.epfc.pocketmovie.R
 
 enum class MovieState() {
@@ -38,17 +38,8 @@ enum class MovieState() {
 fun PocketApp(){
     val navController = rememberNavController()
     Scaffold(
-        topBar = {
-            MovieTopAppBar(
-                canNavigateBack = false,
-                navigateUp = { /* TODO: implement back navigation */ }
-            )
-        },
-        bottomBar = {
-            MovieBottomAppBar(
-                canNavigateBack = false,
-                navigateUp = { /*TODO*/ })
-        }
+        topBar = { MovieTopAppBar() },
+        bottomBar = { MovieBottomAppBar(navController) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -59,7 +50,7 @@ fun PocketApp(){
                 MainScreen(onClickItem = {movieId -> navController.navigate(MovieState.DETAIL.name + "/$movieId")})
             }
             composable(route = MovieState.POCKET.name){
-
+                PocketScreen(onClickItem = {movieId -> navController.navigate(MovieState.DETAIL.name + "/$movieId")})
             }
             composable(route = "${MovieState.DETAIL.name}/{movieId}" ){
                 val detailMovieId = it.arguments?.getString("movieId")?.toInt()
@@ -72,11 +63,7 @@ fun PocketApp(){
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MovieTopAppBar(
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
-)
+fun MovieTopAppBar()
 {
     TopAppBar(
         title = {
@@ -101,9 +88,8 @@ fun MovieTopAppBar(
 
 @Composable
 fun MovieBottomAppBar(
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
-    modifier: Modifier = Modifier)
+    navController: NavController
+)
 {
     BottomAppBar(
         actions = {
@@ -113,7 +99,7 @@ fun MovieBottomAppBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconButton(onClick = { /*goto Mainscrenn */}) {
+                    IconButton(onClick = { navController.navigate(MovieState.MAINSCREEN.name)}) {
                         Icon(
                             imageVector = Icons.Filled.PlayArrow,
                             contentDescription = "recent movies"
@@ -123,7 +109,7 @@ fun MovieBottomAppBar(
                 }
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { navController.navigate(MovieState.POCKET.name) }) {
                         Icon(imageVector = Icons.Filled.Star, contentDescription = "pocket")
                     }
                     Text(text = "Pocket")

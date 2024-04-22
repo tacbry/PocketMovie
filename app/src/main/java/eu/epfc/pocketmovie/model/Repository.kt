@@ -1,8 +1,11 @@
 package eu.epfc.pocketmovie.model
 
 
+import android.content.Context
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import eu.epfc.pocketmovie.database.PocketDatabase
+import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.network.Movie
 import eu.epfc.pocketmovie.network.TmdbService.movieClient
 
@@ -11,14 +14,37 @@ object Repository {
     var pageNumber : Int = 1
     const val  key : String = "3e61ccbeab06aaea3faa21401638cbef"
 
-    /*
-            //Database
+
+    //Database
     private var database : PocketDatabase?=null
     fun initDatabase(context : Context){
         if(database==null){
             database = PocketDatabase.getInstance(context)
         }
-    }*/
+    }
+
+    suspend fun insertPocket(movie : Movie){
+        database?.let { theDatabase ->
+            val newPocket = PocketItem(movie)
+            theDatabase.theDAO().insertPocket(newPocket)
+        }
+    }
+
+    suspend fun deletePocket(movie: Movie){
+        database?.let { theDatabase ->
+            val oldPocket = PocketItem(movie)
+            theDatabase.theDAO().deletePocket(oldPocket)
+        }
+    }
+
+    suspend fun getAllPocket() : List<PocketItem> {
+        database?.let{theDatabase ->
+            return theDatabase.theDAO().getAllPocket()
+        }
+        return listOf()
+    }
+
+
 
     //Http
     private var _movies: MutableList<Movie> = mutableListOf()
@@ -28,10 +54,6 @@ object Repository {
     private var _details: MutableState<Movie?> = mutableStateOf(null)
     val details : MutableState<Movie?>
         get() = _details
-
-    //fonction suspend pour db
-
-    //fonction json
 
 
 

@@ -31,11 +31,8 @@ import kotlin.math.roundToInt
 @Composable
 fun MainScreen(onClickItem: (Int) -> Unit){
     //var checked by remember { mutableStateOf(true) }
-    val mainScreenViewModel : MainScreenViewModel = viewModel()
-    val navController = rememberNavController()
     val viewModelFactory = MainViewModelFactory(LocalContext.current.applicationContext)
     val mainViewModel : MainScreenViewModel = viewModel(factory = viewModelFactory)
-    val context = LocalContext.current.applicationContext
 
     Scaffold{
         Surface(modifier = Modifier
@@ -44,12 +41,6 @@ fun MainScreen(onClickItem: (Int) -> Unit){
             ShowMovies(mainViewModel,onClickItem)
         }
     }
-/*    Switch(
-        checked = checked,
-        onCheckedChange = {
-            checked = it
-        }
-    )//checked = pocket*/
 }
 
 
@@ -68,26 +59,22 @@ fun ShowMovies(mainViewModel: MainScreenViewModel,onClickItem: (Int) -> Unit ){
 
 @Composable
 fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
-    val roundoff = (movie.vote_average * 10.0).roundToInt() / 10.0
     Column {
         Card(modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable(onClick = { onClickItem(movie.id)}))
+            .clickable(onClick = { onClickItem(movie.id) }))
         {
             Row {
                 ViewPosterCoil(movie.poster_path)
                 Column {
                     Text(text = movie.title, fontSize = 20.sp)
                     Text(text = "Release Date :" + movie.release_date)
-                    Text(text = "Rating :$roundoff")
+                    Text(text = "Rating :${(movie.vote_average * 10.0).roundToInt() / 10.0}")
                     CountryFlag(codePays = movie.original_language)
                 }
             }
         }
-
-        //Text(text = movie.overview)
-        //Spacer(Modifier.padding(15.dp))
     }
 }
 

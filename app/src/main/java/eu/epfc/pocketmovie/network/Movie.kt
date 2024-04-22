@@ -12,10 +12,10 @@ data class Movie(
     val original_language: String,
     var pocket: Boolean = false,
     var poster_path: String,
-    val backdropPath: String? = null,
+    val backdrop_path: String,
     val budget: Int = 0,
     val adult: Boolean = false,
-    val production_countries: Country,
+    val production_countries: List<Country>,
     val duration: Int = 0
     )
 
