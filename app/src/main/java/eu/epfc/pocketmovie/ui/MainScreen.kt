@@ -43,9 +43,6 @@ fun MainScreen(onClickItem: (Int) -> Unit){
     }
 }
 
-
-
-
 @Composable
 fun ShowMovies(mainViewModel: MainScreenViewModel,onClickItem: (Int) -> Unit ){
     mainViewModel.fetchMovies()
@@ -55,49 +52,3 @@ fun ShowMovies(mainViewModel: MainScreenViewModel,onClickItem: (Int) -> Unit ){
         }
     }
 }
-
-
-@Composable
-fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
-    Column {
-        Card(modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .clickable(onClick = { onClickItem(movie.id) }))
-        {
-            Row {
-                ViewPosterCoil(movie.poster_path)
-                Column {
-                    Text(text = movie.title, fontSize = 20.sp)
-                    Text(text = "Release Date :" + movie.release_date)
-                    Text(text = "Rating :${(movie.vote_average * 10.0).roundToInt() / 10.0}")
-                    CountryFlag(codePays = movie.original_language)
-                }
-            }
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-/*
-
-
-@Composable
-fun ClickNextPage(mainViewModel: MainScreenViewModel){
-    Repository.pageNumber+=1
-    ShowMovies(mainViewModel)
-}
-
-@Composable
-fun ClickPreviousPage(mainViewModel: MainScreenViewModel){
-    Repository.pageNumber-=1
-    ShowMovies(mainViewModel)
-}
-*/

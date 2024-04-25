@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
+import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.model.Repository
 import eu.epfc.pocketmovie.model.Repository.key
 import eu.epfc.pocketmovie.network.Movie
@@ -30,6 +31,7 @@ enum class MovieResult() {
 class MainScreenViewModel() : ViewModel() {
     val movies: MutableState<List<Movie>> = mutableStateOf(listOf())
     val movieDetails : MutableState<Movie?> = mutableStateOf(null)
+    val pocketList : MutableState<List<PocketItem>> = mutableStateOf(listOf())
     val displayedActivity = mutableStateOf("")
     val fetchResult = mutableStateOf(MovieResult.UNINITIALIZED)
 
@@ -71,6 +73,16 @@ class MainScreenViewModel() : ViewModel() {
                 isPocket(movieId,checked)
             }catch(e : Exception){
                 Log.d("switchChange","can't switch")
+            }
+        }
+    }
+
+    fun fetchPocket() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+               pocketList.value = Repository.getAllPocket()
+            }catch (e : Exception){
+
             }
         }
     }
