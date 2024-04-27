@@ -14,8 +14,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,28 +52,40 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     val movieDetails = viewModel.movieDetails.value
     if (movieDetails != null) {
     Column {
-        ViewPosterCoil(poster = movieDetails.backdrop_path)
-        Text(text = movieDetails.title, fontSize = 20.sp)
+        ViewPosterDetailCoil(poster = movieDetails.backdrop_path)
+        Text(text = movieDetails.title,
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 4.dp))
         Row {
-            Text(text = movieDetails.release_date)
+            Text(text = movieDetails.release_date,modifier = Modifier.padding(bottom = 4.dp))
             //Text(text = mainViewModel.movieDetails.value!!.genres!!.name)
             Text(text = ((movieDetails.vote_average * 10.0).roundToInt() / 10.0).toString())
 
             //    CountryFlag(codePays = movieDetails.production_countries.iso_3166_1[0])
 
             }
-        Text("Overview")
+        Text("Overview",
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 4.dp))
         Text(movieDetails.overview)
         Spacer(modifier = Modifier.padding(16.dp))
-        Row {
-            Text(text = "In the pocket",)
+
+
+        Row(modifier = Modifier.align(Alignment.End).padding(6.dp)) {
+            Text(text = "In the pocket",
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.CenterVertically).padding(6.dp))
+
+
 
             Switch(
                 checked = checkedState.value,
                 onCheckedChange = {
                     checkedState.value = it
                     viewModel.switchChange(it,movieId)
-                }
+                },
+                modifier = Modifier.align(Alignment.Bottom)
             )
         }
 

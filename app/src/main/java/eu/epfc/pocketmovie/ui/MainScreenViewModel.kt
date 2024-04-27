@@ -2,6 +2,7 @@ package eu.epfc.pocketmovie.ui
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -95,7 +96,14 @@ class MainScreenViewModel() : ViewModel() {
 fun ViewPosterCoil(poster: String) {
     val url = "https://image.tmdb.org/t/p/w500$poster"
     AsyncImage(model = url, contentDescription = "poster",
-        modifier = Modifier.size(width = 100.dp, height = 200.dp) )
+        modifier = Modifier.size(width = 125.dp, height = 200.dp) )
+}
+
+@Composable
+fun ViewPosterDetailCoil(poster: String) {
+    val url = "https://image.tmdb.org/t/p/w500$poster"
+    AsyncImage(model = url, contentDescription = "poster",
+        modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
