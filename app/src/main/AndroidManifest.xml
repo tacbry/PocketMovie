@@ -14,11 +14,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PocketMovie"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.PocketMovie">
+
+            <meta-data
+                android:name="developer_name"
+                android:value="Tacbry" />
+            <meta-data
+                android:name="app_version"
+                android:value="1.0" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -36,8 +36,8 @@ fun ShowMovies(mainViewModel: MainScreenViewModel,onClickItem: (Int) -> Unit ){
     mainViewModel.fetchMovies()
     LazyColumn{
         items(mainViewModel.movies.value.size) { index ->
-            MovieItem(mainViewModel.movies.value[index], onClickItem)
             Divider(color = Color.LightGray, thickness = 1.dp)
+            MovieItem(mainViewModel.movies.value[index], onClickItem)
         }
     }
 }

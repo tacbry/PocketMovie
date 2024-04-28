@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import eu.epfc.pocketmovie.model.Repository
 import eu.epfc.pocketmovie.ui.MainScreen
 import eu.epfc.pocketmovie.ui.PocketApp
 import eu.epfc.pocketmovie.ui.theme.PocketMovieTheme
@@ -14,6 +15,7 @@ import eu.epfc.pocketmovie.ui.theme.PocketMovieTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // Repository.initDatabase(applicationContext)
         setContent {
             PocketMovieTheme {
                 // A surface container using the 'background' color from the theme

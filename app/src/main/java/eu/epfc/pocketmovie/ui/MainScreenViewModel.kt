@@ -15,12 +15,11 @@ import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
 import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.model.Repository
-import eu.epfc.pocketmovie.model.Repository.key
 import eu.epfc.pocketmovie.network.Movie
-import eu.epfc.pocketmovie.network.TmdbService
-import eu.epfc.pocketmovie.network.TmdbService.movieClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.content.pm.PackageManager
+
 
 enum class MovieResult() {
     SUCCESS,
@@ -36,6 +35,9 @@ class MainScreenViewModel() : ViewModel() {
     val displayedActivity = mutableStateOf("")
     val fetchResult = mutableStateOf(MovieResult.UNINITIALIZED)
 
+
+    //val developerName: String = getAppMetadata("developer_name")
+    //val appVersion: String = getAppMetadata("app_version")
 
     fun fetchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
