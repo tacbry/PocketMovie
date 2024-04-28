@@ -2,13 +2,16 @@ package eu.epfc.pocketmovie.ui
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.app.PendingIntentCompat.getActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,7 +21,6 @@ import eu.epfc.pocketmovie.model.Repository
 import eu.epfc.pocketmovie.network.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.content.pm.PackageManager
 
 
 enum class MovieResult() {
@@ -32,19 +34,15 @@ class MainScreenViewModel() : ViewModel() {
     val movies: MutableState<List<Movie>> = mutableStateOf(listOf())
     val movieDetails : MutableState<Movie?> = mutableStateOf(null)
     val pocketList : MutableState<List<PocketItem>> = mutableStateOf(listOf())
-    val displayedActivity = mutableStateOf("")
-    val fetchResult = mutableStateOf(MovieResult.UNINITIALIZED)
 
 
-    //val developerName: String = getAppMetadata("developer_name")
-    //val appVersion: String = getAppMetadata("app_version")
 
     fun fetchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Repository.loadMovies()
             } catch (e: Exception) {
-
+                //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
             }
             movies.value = Repository.movies
         }

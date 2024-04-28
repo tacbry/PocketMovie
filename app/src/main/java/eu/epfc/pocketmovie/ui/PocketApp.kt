@@ -31,14 +31,15 @@ import eu.epfc.pocketmovie.R
 enum class MovieState() {
     MAINSCREEN,
     POCKET,
-    DETAIL
+    DETAIL,
+    ABOUT
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PocketApp(){
     val navController = rememberNavController()
     Scaffold(
-        topBar = { MovieTopAppBar() },
+        topBar = { MovieTopAppBar(navController) },
         bottomBar = { MovieBottomAppBar(navController) }
     ) { innerPadding ->
         NavHost(
@@ -56,6 +57,9 @@ fun PocketApp(){
                 val detailMovieId = it.arguments?.getString("movieId")?.toInt()
                 DetailScreen(detailMovieId ?: 0)
             }
+            composable(route = MovieState.ABOUT.name){
+                AboutScreen()
+            }
         }
     }
 }
@@ -63,20 +67,20 @@ fun PocketApp(){
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun MovieTopAppBar()
+fun MovieTopAppBar(navController: NavController)
 {
     TopAppBar(
         title = {
             Text(stringResource(id = R.string.app_name),fontSize = 30.sp)
         },
         actions = {
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = "more"
-                )
-            }
-            IconButton(onClick = { /* do something */ }) {
+//            IconButton(onClick = { /* do something */ }) {
+//                Icon(
+//                    imageVector = Icons.Filled.Search,
+//                    contentDescription = "more"
+//                )
+//            }
+            IconButton(onClick = { navController.navigate(MovieState.ABOUT.name)}) {
                 Icon(
                     imageVector = Icons.Filled.Info,
                     contentDescription = "info"
