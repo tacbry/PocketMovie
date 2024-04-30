@@ -8,11 +8,13 @@ import eu.epfc.pocketmovie.database.PocketDatabase
 import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.network.Movie
 import eu.epfc.pocketmovie.network.TmdbService.movieClient
+import eu.epfc.pocketmovie.ui.MainScreenViewModel
 
 
 object Repository {
     var pageNumber : Int = 1
     const val  key : String = "3e61ccbeab06aaea3faa21401638cbef"
+
 
 
     //Database

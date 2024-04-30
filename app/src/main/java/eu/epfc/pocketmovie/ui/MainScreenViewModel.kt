@@ -2,22 +2,21 @@ package eu.epfc.pocketmovie.ui
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.app.PendingIntentCompat.getActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
 import eu.epfc.pocketmovie.database.PocketItem
+import eu.epfc.pocketmovie.database.mergeCountry
 import eu.epfc.pocketmovie.model.Repository
+import eu.epfc.pocketmovie.network.Genre
 import eu.epfc.pocketmovie.network.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -87,6 +86,11 @@ class MainScreenViewModel() : ViewModel() {
             }
         }
     }
+
+    fun mergeGenre(genres: List<Genre>): String {
+        return genres.joinToString(separator = ", ") { it.name }
+    }
+
 }
 
 
@@ -120,5 +124,7 @@ class MainViewModelFactory(private val context: Context) : ViewModelProvider.Fac
         return MainScreenViewModel() as T
     }
 }
+
+
 
 

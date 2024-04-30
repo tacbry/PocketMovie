@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 import eu.epfc.pocketmovie.network.Movie
 
-@Database(entities = [Movie::class], version = 1, exportSchema = false)
+@Database(entities = [PocketItem::class], version = 1, exportSchema = false)
 abstract class PocketDatabase : RoomDatabase() {
     abstract fun theDAO():PocketDAO
     companion object{

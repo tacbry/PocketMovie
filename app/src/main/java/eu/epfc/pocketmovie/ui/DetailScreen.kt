@@ -59,12 +59,13 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
             modifier = Modifier.padding(bottom = 4.dp))
         Row {
             Text(text = movieDetails.release_date,modifier = Modifier.padding(bottom = 4.dp))
-            //Text(text = mainViewModel.movieDetails.value!!.genres!!.name)
+            Text(" | ")
             Text(text = ((movieDetails.vote_average * 10.0).roundToInt() / 10.0).toString())
 
             //    CountryFlag(codePays = movieDetails.production_countries.iso_3166_1[0])
 
             }
+        Text(text = viewModel.mergeGenre(movieDetails.genres),modifier = Modifier.padding(bottom = 4.dp))
         Text("Overview",
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 4.dp))
