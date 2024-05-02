@@ -23,7 +23,7 @@ fun PocketScreen(onClickItem : (Int) -> Unit){
         Surface(modifier = Modifier
             .padding(it)
             .fillMaxWidth()) {
-            Text("This is the pocketScreen")
+            //Text("This is the pocketScreen")
             ShowPocketMovies(mainViewModel = MainScreenViewModel(),onClickItem)
         }
     }
@@ -38,9 +38,3 @@ fun ShowPocketMovies(mainViewModel: MainScreenViewModel,onClickItem: (Int) -> Un
         }
     }
 }
-
-/*
-- Recreer la vue comme mainscreen
-- afficher les elements de la db (plutot que requete pour recevoir des movie, afficher des pocket item)
-
- */

@@ -14,7 +14,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import eu.epfc.pocketmovie.database.PocketItem
-import eu.epfc.pocketmovie.database.mergeCountry
 import eu.epfc.pocketmovie.network.Movie
 import kotlin.math.roundToInt
 
@@ -40,8 +39,7 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
                     Text(text = "Rating: ${(movie.vote_average * 10.0).roundToInt() / 10.0}",
                         fontSize = 14.sp)
 
-                    //CountryFlag(codePays = mergeCountry(movie.origin_country) )
-                    //Text(mergeCountry(movie.origin_country))
+                    //CountryFlag(codePays = movie.origin_country.let { mergeCountry(it) })
                 }
             }
     }
@@ -50,20 +48,24 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
 @Composable
 fun MovieItemPocket(pocket: PocketItem, onClickItem: (Int) -> Unit){
     Column {
-        Card(modifier = Modifier
+        Row(modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .clickable(onClick = { onClickItem(pocket.movieId) }))
-        {
-            Row {
-                ViewPosterCoil(pocket.poster_path)
-                Column {
-                    Text(text = pocket.title, fontSize = 20.sp)
-                    Text(text = "Release Date :" + pocket.release_date)
-                    Text(text = "Rating :${(pocket.vote_average * 10.0).roundToInt() / 10.0}")
-                    //CountryFlag(codePays = pocket.production_countries)
-                    //Text(pocket.production_countries)
-                }
+            .clickable(onClick = { onClickItem(pocket.movieId) })) {
+            ViewPosterCoil(pocket.poster_path)
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxHeight()) {
+                Text(text = pocket.title,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(bottom = 4.dp))
+                Text(text = "Release Date: ${pocket.release_date}",
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(bottom = 4.dp) )
+                Text(text = "Rating: ${(pocket.vote_average * 10.0).roundToInt() / 10.0}",
+                    fontSize = 14.sp)
             }
         }
     }

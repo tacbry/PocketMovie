@@ -53,38 +53,44 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     if (movieDetails != null) {
     Column {
         ViewPosterDetailCoil(poster = movieDetails.backdrop_path)
-        Text(text = movieDetails.title,
-            fontSize = 25.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp))
-        Row {
-            Text(text = movieDetails.release_date,modifier = Modifier.padding(bottom = 4.dp))
-            Text(" | ")
-            Text(text = ((movieDetails.vote_average * 10.0).roundToInt() / 10.0).toString())
-
-            //    CountryFlag(codePays = movieDetails.production_countries.iso_3166_1[0])
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = movieDetails.title,
+                fontSize = 25.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 4.dp))
+            Row {
+                Text(text = movieDetails.release_date,modifier = Modifier.padding(bottom = 4.dp))
+                Text(" | ")
+                Text(text = ((movieDetails.vote_average * 10.0).roundToInt() / 10.0).toString())
+                Text(" | ")
+                CountryFlag(codePays = movieDetails.origin_country[0])
 
             }
-        Text(text = viewModel.mergeGenre(movieDetails.genres),modifier = Modifier.padding(bottom = 4.dp))
-        Text("Overview",
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 4.dp))
-        Text(movieDetails.overview)
-        Spacer(modifier = Modifier.padding(16.dp))
+            Text(text = viewModel.mergeGenre(movieDetails.genres),modifier = Modifier.padding(bottom = 4.dp))
+            Text("Overview",
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 4.dp))
+            Text(movieDetails.overview)
+            Spacer(modifier = Modifier.padding(16.dp))
+        }
 
 
-        Row(modifier = Modifier.align(Alignment.End).padding(6.dp)) {
+
+        Row(modifier = Modifier
+            .align(Alignment.End)
+            .padding(6.dp)) {
             Text(text = "In the pocket",
                 textAlign = TextAlign.Center,
-                modifier = Modifier.align(Alignment.CenterVertically).padding(6.dp))
-
-
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(6.dp))
 
             Switch(
-                checked = checkedState.value,
+                checked = movieDetails.pocket,
                 onCheckedChange = {
                     checkedState.value = it
                     viewModel.switchChange(it,movieId)
+                    movieDetails.pocket = it
                 },
                 modifier = Modifier.align(Alignment.Bottom)
             )

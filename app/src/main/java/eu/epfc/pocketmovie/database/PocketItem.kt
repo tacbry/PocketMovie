@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import eu.epfc.pocketmovie.network.Genre
 import eu.epfc.pocketmovie.network.Movie
+import eu.epfc.pocketmovie.ui.mergeCountry
 
 @Entity(tableName =  "PocketItem")
 data class PocketItem(
@@ -73,7 +74,5 @@ fun mergeGenre(genres: List<Genre>): String {
     return genres.joinToString(separator = ", ") { it.name }
 }
 
-fun mergeCountry(country: List<String>): String {
-    return country.joinToString(){it}
-}
+
 

@@ -15,7 +15,7 @@ import eu.epfc.pocketmovie.ui.theme.PocketMovieTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // Repository.initDatabase(applicationContext)
+        Repository.initDatabase(applicationContext)
         setContent {
             PocketMovieTheme {
                 // A surface container using the 'background' color from the theme
