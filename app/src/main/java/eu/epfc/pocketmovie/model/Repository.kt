@@ -2,6 +2,7 @@ package eu.epfc.pocketmovie.model
 
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import eu.epfc.pocketmovie.database.PocketDatabase
@@ -64,13 +65,17 @@ object Repository {
 
         _movies = response.results.toMutableList()
             //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
-
+//if page = 1, clear puis ajouter
         }
 
 
     suspend fun loadDetails(movieId : Int){
         val response = movieClient.getMovieDetails(movieId.toString(),key)
         _details.value = response
+    }
+
+    suspend fun connectionToast(context: Context){
+        Toast.makeText(context,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
     }
 }
 

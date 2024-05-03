@@ -12,6 +12,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -48,8 +49,9 @@ fun DetailScreen(movieId : Int?){
 @Composable
 fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     viewModel.fetchMovieDetails(movieId)
-    val checkedState = remember { mutableStateOf(false) }
+    val checkedState = remember { viewModel.switchIsOn }
     val movieDetails = viewModel.movieDetails.value
+    val state : Boolean = checkedState.value
     if (movieDetails != null) {
     Column {
         ViewPosterDetailCoil(poster = movieDetails.backdrop_path)
@@ -86,7 +88,7 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
                     .padding(6.dp))
 
             Switch(
-                checked = movieDetails.pocket,
+                checked = state,
                 onCheckedChange = {
                     checkedState.value = it
                     viewModel.switchChange(it,movieId)
@@ -99,6 +101,5 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     }
     }
 }
-
 
 

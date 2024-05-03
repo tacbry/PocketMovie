@@ -33,18 +33,28 @@ class MainScreenViewModel() : ViewModel() {
     val movies: MutableState<List<Movie>> = mutableStateOf(listOf())
     val movieDetails : MutableState<Movie?> = mutableStateOf(null)
     val pocketList : MutableState<List<PocketItem>> = mutableStateOf(listOf())
+    var switchIsOn : MutableState<Boolean> = mutableStateOf(false)
 
 
 
     fun fetchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
-            try {
-                Repository.loadMovies()
-            } catch (e: Exception) {
-                //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
+            if (Repository.pageNumber==1){
+                movies.value = emptyList()
+                try {
+                    Repository.loadMovies()
+                } catch (e: Exception) {
+                    //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
+                }
+                movies.value += Repository.movies
+            }else{
+                try {
+                    Repository.loadMovies()
+                } catch (e: Exception) {
+                    //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
+                }
+                movies.value += Repository.movies
             }
-            movies.value = Repository.movies
-            //movies.value +=
         }
     }
 
@@ -62,10 +72,12 @@ class MainScreenViewModel() : ViewModel() {
     suspend fun isPocket(movieId: Int, checked : Boolean){
         fetchMovieDetails(movieId)
         if (checked){
-            //movieDetails.value?.pocket = true
+            movieDetails.value?.pocket = true
+            switchIsOn = mutableStateOf(true)
             movieDetails.value?.let { Repository.insertPocket(it) }
         } else{
-            //movieDetails.value?.pocket = false
+            movieDetails.value?.pocket = false
+            switchIsOn = mutableStateOf(false)
             movieDetails.value?.let { Repository.deletePocket(it) }
         }
     }

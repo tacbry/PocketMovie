@@ -1,5 +1,6 @@
 package eu.epfc.pocketmovie.ui
 
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -114,7 +116,7 @@ fun MovieBottomAppBar(
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     IconButton(onClick = { navController.navigate(MovieState.POCKET.name) }) {
-                        Icon(imageVector = Icons.Filled.Star, contentDescription = "pocket")
+                        Icon(imageVector = Icons.Filled.Star, contentDescription = "pocket", )
                     }
                     Text(text = "Pocket")
                 }

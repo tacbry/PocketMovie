@@ -57,19 +57,6 @@ data class PocketItem(
         origin_country = mergeCountry(movie.origin_country) ,
         duration = movie.duration)
 }
-
-data class Genre(
-    val id: Int,
-    val name : String
-)
-
-
-
-
-data class Country(
-    val iso_3166_1 : String,
-    val name : String
-)
 fun mergeGenre(genres: List<Genre>): String {
     return genres.joinToString(separator = ", ") { it.name }
 }
