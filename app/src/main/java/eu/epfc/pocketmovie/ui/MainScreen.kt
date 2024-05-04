@@ -36,7 +36,6 @@ import eu.epfc.pocketmovie.model.Repository
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(onClickItem: (Int) -> Unit){
-    var checked by remember { mutableStateOf(true) }
     val viewModelFactory = MainViewModelFactory(LocalContext.current.applicationContext)
     val mainViewModel : MainScreenViewModel = viewModel(factory = viewModelFactory)
 

@@ -44,7 +44,7 @@ class MainScreenViewModel() : ViewModel() {
                 try {
                     Repository.loadMovies()
                 } catch (e: Exception) {
-                    //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
+
                 }
                 movies.value += Repository.movies
             }else{
@@ -70,13 +70,12 @@ class MainScreenViewModel() : ViewModel() {
     }
 
     suspend fun isPocket(movieId: Int, checked : Boolean){
-        fetchMovieDetails(movieId)
         if (checked){
-            movieDetails.value?.pocket = true
+            //movieDetails.value?.pocket = true
             switchIsOn = mutableStateOf(true)
             movieDetails.value?.let { Repository.insertPocket(it) }
         } else{
-            movieDetails.value?.pocket = false
+            //movieDetails.value?.pocket = false
             switchIsOn = mutableStateOf(false)
             movieDetails.value?.let { Repository.deletePocket(it) }
         }

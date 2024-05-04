@@ -38,7 +38,7 @@ fun DetailScreen(movieId : Int?){
             .padding(it)
             .fillMaxWidth()) {
             if (movieId != null) {
-                ItemDetails(viewModel = mainViewModel, movieId )
+                ItemDetails(viewModel = mainViewModel, movieId ,)
             }
 
         }
@@ -51,7 +51,6 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     viewModel.fetchMovieDetails(movieId)
     val checkedState = remember { viewModel.switchIsOn }
     val movieDetails = viewModel.movieDetails.value
-    val state : Boolean = checkedState.value
     if (movieDetails != null) {
     Column {
         ViewPosterDetailCoil(poster = movieDetails.backdrop_path)
@@ -88,11 +87,11 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
                     .padding(6.dp))
 
             Switch(
-                checked = state,
+                checked = checkedState.value,
                 onCheckedChange = {
                     checkedState.value = it
                     viewModel.switchChange(it,movieId)
-                    movieDetails.pocket = it
+                    //movieDetails.pocket = it
                 },
                 modifier = Modifier.align(Alignment.Bottom)
             )
