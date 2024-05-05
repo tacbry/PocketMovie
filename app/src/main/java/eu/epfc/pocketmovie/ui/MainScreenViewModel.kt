@@ -10,16 +10,20 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import coil.compose.AsyncImage
+import eu.epfc.pocketmovie.database.PocketDAO
 import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.model.Repository
 import eu.epfc.pocketmovie.network.Genre
 import eu.epfc.pocketmovie.network.Movie
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 enum class MovieResult() {
@@ -37,24 +41,31 @@ class MainScreenViewModel() : ViewModel() {
 
 
 
+    fun toast(context: Context){
+        viewModelScope.launch(Dispatchers.IO) {
+            Repository.connectionToast(context)
+        }
+
+    }
+
     fun fetchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (Repository.pageNumber==1){
-                movies.value = emptyList()
+//            if (Repository.pageNumber==1){
+//                movies.value = emptyList()
                 try {
                     Repository.loadMovies()
                 } catch (e: Exception) {
 
                 }
                 movies.value += Repository.movies
-            }else{
-                try {
-                    Repository.loadMovies()
-                } catch (e: Exception) {
-                    //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
-                }
-                movies.value += Repository.movies
-            }
+////            }else{
+//                try {
+//                    Repository.loadMovies()
+//                } catch (e: Exception) {
+//                    //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
+//                }
+//                movies.value += Repository.movies
+//            }
         }
     }
 
@@ -78,6 +89,12 @@ class MainScreenViewModel() : ViewModel() {
             //movieDetails.value?.pocket = false
             switchIsOn = mutableStateOf(false)
             movieDetails.value?.let { Repository.deletePocket(it) }
+        }
+    }
+
+    fun isInDb(movieId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Repository.isInDb(movieId)
         }
     }
 

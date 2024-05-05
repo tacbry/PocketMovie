@@ -1,5 +1,6 @@
 package eu.epfc.pocketmovie.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -17,4 +18,6 @@ interface PocketDAO {
 
     @Delete
     suspend fun deletePocket(item: PocketItem)
+    @Query("SELECT EXISTS(SELECT * FROM PocketItem WHERE movieId = :movieId)")
+    suspend fun isMovieInDb(movieId: Int): Boolean
 }

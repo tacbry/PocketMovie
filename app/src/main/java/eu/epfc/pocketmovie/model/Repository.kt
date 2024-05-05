@@ -5,6 +5,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
 import eu.epfc.pocketmovie.database.PocketDatabase
 import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.network.Movie
@@ -15,7 +16,6 @@ import eu.epfc.pocketmovie.ui.MainScreenViewModel
 object Repository {
     var pageNumber : Int = 1
     const val  key : String = "3e61ccbeab06aaea3faa21401638cbef"
-
 
 
     //Database
@@ -47,6 +47,13 @@ object Repository {
         return listOf()
     }
 
+    suspend fun isInDb(movieId: Int) : Boolean {
+        database?.let{theDatabase ->
+            return theDatabase.theDAO().isMovieInDb(movieId)
+        }
+        return false
+    }
+
 
 
     //Http
@@ -64,9 +71,7 @@ object Repository {
         val response = movieClient.getMovies(pageNumber,key)
 
         _movies = response.results.toMutableList()
-            //concaten liste actuelle et nouvelle (peut etre dans fetchmovies)
-//if page = 1, clear puis ajouter
-        }
+    }
 
 
     suspend fun loadDetails(movieId : Int){
