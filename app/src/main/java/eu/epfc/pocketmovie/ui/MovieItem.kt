@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import eu.epfc.pocketmovie.database.PocketItem
+import eu.epfc.pocketmovie.model.Repository.ViewPosterCoil
 import eu.epfc.pocketmovie.network.Movie
 import kotlin.math.roundToInt
 
@@ -23,7 +24,9 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
             Row(modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth()
-                .clickable(onClick = { onClickItem(movie.id) })) {
+                .clickable(onClick = {
+                    onClickItem(movie.id)
+                })) {
                 ViewPosterCoil(movie.poster_path)
                 Column(
                     modifier = Modifier
@@ -38,8 +41,6 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
                         modifier = Modifier.padding(bottom = 4.dp) )
                     Text(text = "Rating: ${(movie.vote_average * 10.0).roundToInt() / 10.0}",
                         fontSize = 14.sp)
-
-                    //CountryFlag(codePays = movie.origin_country.let { mergeCountry(it) })
                 }
             }
     }

@@ -24,6 +24,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import eu.epfc.pocketmovie.model.Repository.CountryFlag
+import eu.epfc.pocketmovie.model.Repository.ViewPosterDetailCoil
 import eu.epfc.pocketmovie.network.Movie
 import kotlin.math.roundToInt
 
@@ -38,6 +40,7 @@ fun DetailScreen(movieId : Int?){
             .padding(it)
             .fillMaxWidth()) {
             if (movieId != null) {
+                mainViewModel.fetchMovieDetails(movieId)
                 ItemDetails(viewModel = mainViewModel, movieId ,)
             }
 
@@ -52,6 +55,7 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     val checkedState = remember { viewModel.switchIsOn }
     val movieDetails = viewModel.movieDetails.value
     if (movieDetails != null) {
+
     Column {
         ViewPosterDetailCoil(poster = movieDetails.backdrop_path)
         Column(modifier = Modifier.padding(16.dp)) {

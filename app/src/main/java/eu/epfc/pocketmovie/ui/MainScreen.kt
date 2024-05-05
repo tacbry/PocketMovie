@@ -20,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import eu.epfc.pocketmovie.model.Repository
-
+import eu.epfc.pocketmovie.model.Repository.movies
 
 
 @ExperimentalMaterial3Api

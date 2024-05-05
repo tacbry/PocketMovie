@@ -52,7 +52,7 @@ class MainScreenViewModel() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
 //            if (Repository.pageNumber==1){
 //                movies.value = emptyList()
-                try {
+            try {
                     Repository.loadMovies()
                 } catch (e: Exception) {
 
@@ -71,6 +71,7 @@ class MainScreenViewModel() : ViewModel() {
 
     fun fetchMovieDetails(movieId : Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            switchIsOn.value = Repository.isInDb(movieId)
             try {
                 Repository.loadDetails(movieId)
             } catch (e: Exception) {
@@ -89,12 +90,6 @@ class MainScreenViewModel() : ViewModel() {
             //movieDetails.value?.pocket = false
             switchIsOn = mutableStateOf(false)
             movieDetails.value?.let { Repository.deletePocket(it) }
-        }
-    }
-
-    fun isInDb(movieId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            Repository.isInDb(movieId)
         }
     }
 
@@ -127,36 +122,7 @@ class MainScreenViewModel() : ViewModel() {
 
 
 
-@Composable
-fun ViewPosterCoil(poster: String) {
-    val url = "https://image.tmdb.org/t/p/w500$poster"
-    AsyncImage(model = url, contentDescription = "poster",
-        modifier = Modifier.size(width = 125.dp, height = 200.dp) )
-}
 
-@Composable
-fun ViewPosterDetailCoil(poster: String) {
-    val url = "https://image.tmdb.org/t/p/w500$poster"
-    AsyncImage(model = url, contentDescription = "poster",
-        modifier = Modifier.fillMaxWidth())
-}
-
-@Composable
-
-fun CountryFlag(codePays: String) {
-    var code = codePays?.lowercase()
-    if (codePays == null){
-        code = "unknown"
-    }
-    if(code == "unknown"){
-
-    }else{
-        val url = "https://flagcdn.com/h20/$code.png"
-        AsyncImage(model = url, contentDescription = "languageflag", modifier = Modifier
-            .padding(6.dp)
-            .size(24.dp,12.dp))
-    }
-}
 
 fun mergeCountry(country: List<String>): String {
     return country.joinToString(){it}

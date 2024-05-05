@@ -3,9 +3,16 @@ package eu.epfc.pocketmovie.model
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import coil.compose.AsyncImage
 import eu.epfc.pocketmovie.database.PocketDatabase
 import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.network.Movie
@@ -35,7 +42,7 @@ object Repository {
 
     suspend fun deletePocket(movie: Movie){
         database?.let { theDatabase ->
-            val oldPocket = PocketItem(movie)
+            val oldPocket = movie.id
             theDatabase.theDAO().deletePocket(oldPocket)
         }
     }
@@ -81,6 +88,37 @@ object Repository {
 
     suspend fun connectionToast(context: Context){
         Toast.makeText(context,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Composable
+    fun ViewPosterCoil(poster: String) {
+        val url = "https://image.tmdb.org/t/p/w500$poster"
+        AsyncImage(model = url, contentDescription = "poster",
+            modifier = Modifier.size(width = 125.dp, height = 200.dp) )
+    }
+
+    @Composable
+    fun ViewPosterDetailCoil(poster: String) {
+        val url = "https://image.tmdb.org/t/p/w500$poster"
+        AsyncImage(model = url, contentDescription = "poster",
+            modifier = Modifier.fillMaxWidth())
+    }
+
+    @Composable
+
+    fun CountryFlag(codePays: String) {
+        var code = codePays.lowercase()
+        if (codePays == null){
+            code = "unknown"
+        }
+        if(code == "unknown"){
+
+        }else{
+            val url = "https://flagcdn.com/h20/$code.png"
+            AsyncImage(model = url, contentDescription = "origin country flag", modifier = Modifier
+                .padding(6.dp)
+                .size(24.dp,12.dp))
+        }
     }
 }
 

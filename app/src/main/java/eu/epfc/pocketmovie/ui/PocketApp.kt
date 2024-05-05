@@ -29,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import eu.epfc.pocketmovie.R
+import eu.epfc.pocketmovie.model.Repository
 
 enum class MovieState() {
     MAINSCREEN,
@@ -38,11 +39,11 @@ enum class MovieState() {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PocketApp(){
+fun PocketApp(viewModel: MainScreenViewModel){
     val navController = rememberNavController()
     Scaffold(
         topBar = { MovieTopAppBar(navController) },
-        bottomBar = { MovieBottomAppBar(navController) }
+        bottomBar = { MovieBottomAppBar(navController,viewModel) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -50,7 +51,7 @@ fun PocketApp(){
             modifier = Modifier.padding(innerPadding)
         ){
             composable(route = MovieState.MAINSCREEN.name){
-                MainScreen(onClickItem = {movieId -> navController.navigate(MovieState.DETAIL.name + "/$movieId")})
+                MainScreen(onClickItem = { movieId -> navController.navigate(MovieState.DETAIL.name + "/$movieId") })
             }
             composable(route = MovieState.POCKET.name){
                 PocketScreen(onClickItem = {movieId -> navController.navigate(MovieState.DETAIL.name + "/$movieId")})
@@ -94,7 +95,8 @@ fun MovieTopAppBar(navController: NavController)
 
 @Composable
 fun MovieBottomAppBar(
-    navController: NavController
+    navController: NavController,
+    viewModel: MainScreenViewModel
 )
 {
     BottomAppBar(
@@ -105,7 +107,12 @@ fun MovieBottomAppBar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    IconButton(onClick = { navController.navigate(MovieState.MAINSCREEN.name)}) {
+                    IconButton(onClick = {
+                        Repository.pageNumber = 1
+                        //viewModel.fetchMovies()
+                        viewModel.movies.value = emptyList()
+                        navController.navigate(MovieState.MAINSCREEN.name)
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.PlayArrow,
                             contentDescription = "recent movies"
