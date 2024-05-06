@@ -43,7 +43,7 @@ fun MainScreen(onClickItem: (Int) -> Unit){
 
 @Composable
 fun ShowMovies(mainViewModel: MainScreenViewModel,onClickItem: (Int) -> Unit ){
-    mainViewModel.fetchMovies()
+    //mainViewModel.fetchMovies()
 
     LazyColumn{
         items(mainViewModel.movies.value.size+1) { index ->

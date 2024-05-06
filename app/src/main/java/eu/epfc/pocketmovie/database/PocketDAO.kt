@@ -16,7 +16,7 @@ interface PocketDAO {
     @Query("SELECT * from PocketItem")
     suspend fun getAllPocket() : List<PocketItem>
 
-    @Query("DELETE FROM PocketItem WHERE id = :movieId")
+    @Query("DELETE FROM PocketItem WHERE movieId = :movieId")
     suspend fun deletePocket(movieId: Int)
 
 //    @Delete

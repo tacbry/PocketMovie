@@ -41,6 +41,10 @@ class MainScreenViewModel() : ViewModel() {
 
 
 
+    init {
+        fetchMovies()
+    }
+
     fun toast(context: Context){
         viewModelScope.launch(Dispatchers.IO) {
             Repository.connectionToast(context)
@@ -50,22 +54,8 @@ class MainScreenViewModel() : ViewModel() {
 
     fun fetchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
-//            if (Repository.pageNumber==1){
-//                movies.value = emptyList()
-            try {
-                    Repository.loadMovies()
-                } catch (e: Exception) {
-
-                }
-                movies.value += Repository.movies
-////            }else{
-//                try {
-//                    Repository.loadMovies()
-//                } catch (e: Exception) {
-//                    //Toast.makeText(this@MainScreenViewModel,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
-//                }
-//                movies.value += Repository.movies
-//            }
+            Repository.loadMovies()
+            movies.value += Repository.movies
         }
     }
 
@@ -84,11 +74,11 @@ class MainScreenViewModel() : ViewModel() {
     suspend fun isPocket(movieId: Int, checked : Boolean){
         if (checked){
             //movieDetails.value?.pocket = true
-            switchIsOn = mutableStateOf(true)
+            switchIsOn.value = true
             movieDetails.value?.let { Repository.insertPocket(it) }
         } else{
             //movieDetails.value?.pocket = false
-            switchIsOn = mutableStateOf(false)
+            switchIsOn.value = false
             movieDetails.value?.let { Repository.deletePocket(it) }
         }
     }
