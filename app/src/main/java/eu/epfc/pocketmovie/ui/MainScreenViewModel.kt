@@ -26,32 +26,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-enum class MovieResult() {
-    SUCCESS,
-    ERROR,
-    UNINITIALIZED;
-}
-
-
 class MainScreenViewModel() : ViewModel() {
     val movies: MutableState<List<Movie>> = mutableStateOf(listOf())
     val movieDetails : MutableState<Movie?> = mutableStateOf(null)
     val pocketList : MutableState<List<PocketItem>> = mutableStateOf(listOf())
     var switchIsOn : MutableState<Boolean> = mutableStateOf(false)
 
-
-
     init {
         fetchMovies()
     }
 
-    fun toast(context: Context){
-        viewModelScope.launch(Dispatchers.IO) {
-            Repository.connectionToast(context)
-        }
-
-    }
-
+/*---------------------- Import des items ----------------------*/
     fun fetchMovies() {
         viewModelScope.launch(Dispatchers.IO) {
             Repository.loadMovies()
@@ -70,6 +55,8 @@ class MainScreenViewModel() : ViewModel() {
             movieDetails.value = Repository.details.value
         }
     }
+
+/*---------------------- Gestion du switch Pocket ----------------------*/
 
     suspend fun isPocket(movieId: Int, checked : Boolean){
         if (checked){
@@ -93,6 +80,7 @@ class MainScreenViewModel() : ViewModel() {
         }
     }
 
+/*---------------------- Import des items Pocket ----------------------*/
     fun fetchPocket() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -103,21 +91,18 @@ class MainScreenViewModel() : ViewModel() {
         }
     }
 
+/*---------------------- Gestion genres et country ----------------------*/
     fun mergeGenre(genres: List<Genre>): String {
         return genres.joinToString(separator = ", ") { it.name }
     }
 
 }
 
+    fun mergeCountry(country: List<String>): String {
+        return country.joinToString(){it}
+    }
 
-
-
-
-
-fun mergeCountry(country: List<String>): String {
-    return country.joinToString(){it}
-}
-
+/*---------------------- MainviewmodelFactory ----------------------*/
 
 class MainViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

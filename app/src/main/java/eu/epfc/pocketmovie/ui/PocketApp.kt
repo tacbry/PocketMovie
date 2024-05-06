@@ -1,11 +1,13 @@
 package eu.epfc.pocketmovie.ui
 
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PlayArrow
@@ -22,7 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -73,9 +77,19 @@ fun PocketApp(viewModel: MainScreenViewModel){
 fun MovieTopAppBar(navController: NavController)
 {
     TopAppBar(
-        title = {
-            Text(stringResource(id = R.string.app_name),fontSize = 30.sp)
-        },
+        {
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.roundlogo), // Remplacez par le chemin vers votre image
+                    contentDescription = "Logo",
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .size(40.dp)
+                )
+                Text(stringResource(id = R.string.app_name),fontSize = 30.sp)
+            }
+        }
+,
         actions = {
 //            IconButton(onClick = { /* do something */ }) {
 //                Icon(

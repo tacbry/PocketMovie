@@ -49,7 +49,7 @@ fun DetailScreen(movieId : Int?){
     }
 }
 
-
+/*---------------------- Configuration de la disposition ----------------------*/
 @Composable
 fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     LaunchedEffect(true){

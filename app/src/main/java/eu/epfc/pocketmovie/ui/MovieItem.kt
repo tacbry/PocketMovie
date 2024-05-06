@@ -18,6 +18,7 @@ import eu.epfc.pocketmovie.model.Repository.ViewPosterCoil
 import eu.epfc.pocketmovie.network.Movie
 import kotlin.math.roundToInt
 
+/*---------------------- Configuration de la disposition pour Mainscreen ----------------------*/
 @Composable
 fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
     Column {
@@ -46,6 +47,7 @@ fun MovieItem(movie: Movie, onClickItem: (Int) -> Unit){
     }
 }
 
+/*---------------------- Configuration de la disposition pour Pocketscreen ----------------------*/
 @Composable
 fun MovieItemPocket(pocket: PocketItem, onClickItem: (Int) -> Unit){
     Column {

@@ -25,7 +25,8 @@ object Repository {
     const val  key : String = "3e61ccbeab06aaea3faa21401638cbef"
 
 
-    //Database
+    /*---------------------- Initialisation de la db + actions ----------------------*/
+
     private var database : PocketDatabase?=null
     fun initDatabase(context : Context){
         if(database==null){
@@ -62,8 +63,8 @@ object Repository {
     }
 
 
+    /*---------------------- Fonction appel http ----------------------*/
 
-    //Http
     private var _movies: MutableList<Movie> = mutableListOf()
     val movies : List<Movie>
         get() = _movies
@@ -72,24 +73,17 @@ object Repository {
     val details : MutableState<Movie?>
         get() = _details
 
-
-
     suspend fun loadMovies(){
         val response = movieClient.getMovies(pageNumber,key)
-
         _movies = response.results.toMutableList()
     }
-
 
     suspend fun loadDetails(movieId : Int){
         val response = movieClient.getMovieDetails(movieId.toString(),key)
         _details.value = response
     }
 
-    suspend fun connectionToast(context: Context){
-        Toast.makeText(context,"La connexion a échoué.", Toast.LENGTH_SHORT).show();
-    }
-
+    /*---------------------- Chargement des images ----------------------*/
     @Composable
     fun ViewPosterCoil(poster: String) {
         val url = "https://image.tmdb.org/t/p/w500$poster"
