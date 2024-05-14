@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ fun MainScreen(onClickItem: (Int) -> Unit){
     val viewModelFactory = MainViewModelFactory(LocalContext.current.applicationContext)
     val mainViewModel : MainScreenViewModel = viewModel(factory = viewModelFactory)
 
+// launch effect ici avec une variable mutable qui est changée dans le catch (ca crée une recomposition)
 
     Scaffold{
         Surface(modifier = Modifier

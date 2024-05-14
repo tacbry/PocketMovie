@@ -41,6 +41,7 @@ class MainScreenViewModel() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             Repository.loadMovies()
             movies.value += Repository.movies
+
         }
     }
 
