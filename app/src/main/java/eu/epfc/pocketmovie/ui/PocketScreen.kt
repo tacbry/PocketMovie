@@ -23,7 +23,6 @@ fun PocketScreen(onClickItem : (Int) -> Unit){
         Surface(modifier = Modifier
             .padding(it)
             .fillMaxWidth()) {
-            //Text("This is the pocketScreen")
             ShowPocketMovies(mainViewModel = MainScreenViewModel(),onClickItem)
         }
     }

@@ -123,8 +123,7 @@ fun MovieBottomAppBar(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     IconButton(onClick = {
                         Repository.pageNumber = 1
-                        //viewModel.fetchMovies()
-                        viewModel.movies.value = emptyList()
+//                        viewModel.movies.value = emptyList()
                         navController.navigate(MovieState.MAINSCREEN.name)
                     }) {
                         Icon(

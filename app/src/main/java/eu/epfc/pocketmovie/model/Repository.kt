@@ -3,6 +3,7 @@ package eu.epfc.pocketmovie.model
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -10,14 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
 import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
 import eu.epfc.pocketmovie.database.PocketDatabase
 import eu.epfc.pocketmovie.database.PocketItem
 import eu.epfc.pocketmovie.network.Movie
 import eu.epfc.pocketmovie.network.TmdbService.movieClient
 import eu.epfc.pocketmovie.ui.MainScreenViewModel
+import eu.epfc.pocketmovie.R
 
 
 object Repository {
@@ -94,8 +98,12 @@ object Repository {
     @Composable
     fun ViewPosterDetailCoil(poster: String) {
         val url = "https://image.tmdb.org/t/p/w500$poster"
+        if(url != null){
         AsyncImage(model = url, contentDescription = "poster",
             modifier = Modifier.fillMaxWidth())
+        }else{
+            Image(painter = painterResource(id = R.drawable.roundlogo), contentDescription = "no image" )
+        }//ne règle toujours pas le problème d'absence d'image
     }
 
     @Composable
@@ -111,7 +119,7 @@ object Repository {
             val url = "https://flagcdn.com/h20/$code.png"
             AsyncImage(model = url, contentDescription = "origin country flag", modifier = Modifier
                 .padding(6.dp)
-                .size(24.dp,12.dp))
+                .size(24.dp, 12.dp))
         }
     }
 }

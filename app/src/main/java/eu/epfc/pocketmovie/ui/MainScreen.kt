@@ -30,7 +30,7 @@ fun MainScreen(onClickItem: (Int) -> Unit){
     val viewModelFactory = MainViewModelFactory(LocalContext.current.applicationContext)
     val mainViewModel : MainScreenViewModel = viewModel(factory = viewModelFactory)
 
-// launch effect ici avec une variable mutable qui est changée dans le catch (ca crée une recomposition)
+// launch effect ici avec une variable mutable qui est changée dans le catch (ca crée une recomposition) (pour toast)
 
     Scaffold{
         Surface(modifier = Modifier
@@ -45,12 +45,9 @@ fun MainScreen(onClickItem: (Int) -> Unit){
 
 @Composable
 fun ShowMovies(mainViewModel: MainScreenViewModel,onClickItem: (Int) -> Unit ){
-    //mainViewModel.fetchMovies()
-
     LazyColumn{
         items(mainViewModel.movies.value.size+1) { index ->
             if (index < mainViewModel.movies.value.size){
-                //Divider(color = Color.LightGray, thickness = 1.dp)
                 MovieItem(mainViewModel.movies.value[index], onClickItem)
             } else{
                 Box(modifier = Modifier

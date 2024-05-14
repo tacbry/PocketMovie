@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -41,10 +43,11 @@ fun DetailScreen(movieId : Int?){
             .padding(it)
             .fillMaxWidth()) {
             if (movieId != null) {
-                mainViewModel.fetchMovieDetails(movieId)
+                LaunchedEffect(true) {
+                    mainViewModel.fetchMovieDetails(movieId)
+                }
                 ItemDetails(viewModel = mainViewModel, movieId ,)
             }
-
         }
     }
 }
@@ -57,11 +60,12 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
     }
     val checkedState = remember { viewModel.switchIsOn }
     val movieDetails = viewModel.movieDetails.value
+    val scrollState = rememberScrollState()
     if (movieDetails != null) {
 
     Column {
         ViewPosterDetailCoil(poster = movieDetails.backdrop_path)
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(16.dp).verticalScroll(scrollState)) {
             Text(text = movieDetails.title,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
@@ -80,31 +84,27 @@ fun ItemDetails(viewModel: MainScreenViewModel, movieId: Int) {
                 modifier = Modifier.padding(bottom = 4.dp))
             Text(movieDetails.overview)
             Spacer(modifier = Modifier.padding(16.dp))
+
+            Row(modifier = Modifier
+                .align(Alignment.End)
+                .padding(6.dp)) {
+                Text(text = "In the pocket",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .padding(6.dp))
+
+                Switch(
+                    checked = checkedState.value,
+                    onCheckedChange = {
+                        checkedState.value = it
+                        viewModel.switchChange(it,movieId)
+                    },
+                    modifier = Modifier.align(Alignment.Bottom)
+                    )
+                }
+            }
         }
-
-
-
-        Row(modifier = Modifier
-            .align(Alignment.End)
-            .padding(6.dp)) {
-            Text(text = "In the pocket",
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(6.dp))
-
-            Switch(
-                checked = checkedState.value,
-                onCheckedChange = {
-                    checkedState.value = it
-                    viewModel.switchChange(it,movieId)
-                    //movieDetails.pocket = it
-                },
-                modifier = Modifier.align(Alignment.Bottom)
-            )
-        }
-
-    }
     }
 }
 

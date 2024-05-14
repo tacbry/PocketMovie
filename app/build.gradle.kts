@@ -70,6 +70,7 @@ dependencies {
 
     //coil
     implementation ("io.coil-kt:coil-compose:2.4.0")
+    implementation ("com.google.accompanist:accompanist-coil:0.15.0")
 
     //base
     implementation("androidx.core:core-ktx:1.9.0")
